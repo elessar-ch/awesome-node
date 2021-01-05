@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/bespinian/awesome-node/issues"
   },
-  "homepage": "https://github.com/bespinian/awesome-node#readme"
+  "homepage": "https://github.com/bespinian/awesome-node#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }

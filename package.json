@@ -1,0 +1,19 @@
+{
+  "name": "awesome-node",
+  "version": "1.0.0",
+  "description": "Awesome little node server to showcase Docker builds",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bespinian/awesome-node.git"
+  },
+  "author": "Gabriel Koch",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bespinian/awesome-node/issues"
+  },
+  "homepage": "https://github.com/bespinian/awesome-node#readme"
+}

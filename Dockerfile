@@ -3,7 +3,9 @@ ENV PORT 8080
 ENV NODE_ENV=production
 WORKDIR /app
 
-COPY . .
+COPY ["package.json", "package-lock.json*", "./"]
 RUN npm install --production
+
+COPY . .
 
 CMD [ "node", "server.js" ]

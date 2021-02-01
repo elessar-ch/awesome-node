@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/bespinian/awesome-node#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-prom-bundle": "^6.3.1",
+    "prom-client": "^13.1.0"
   }
 }

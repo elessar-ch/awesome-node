@@ -1,6 +1,6 @@
 {
   "name": "awesome-node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Awesome little node server to showcase Docker builds",
   "main": "server.js",
   "scripts": {

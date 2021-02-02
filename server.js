@@ -22,6 +22,18 @@ app.get("/random-nr", function (req, res) {
   let randomNr = 4; // Random number chosen by fair dice roll
   res.json({ randomValue: `${randomNr}` });
 });
+app.get("/slow-request", (req, res) => {
+  if (!req.query.request_time) {
+    res.status(400).send("Bad Request: must send get parameter request_time");
+    return;
+  }
+
+  setTimeout(function () {
+    res.json({
+      waited: req.query.request_time + "s",
+    });
+  }, parseInt(req.query.request_time) * 1000);
+});
 app.post("/allocate-memory-kb", (req, res) => {
   if (!req.body.memory_size_kb) {
     res

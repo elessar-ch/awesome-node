@@ -1,11 +1,23 @@
 # Awesome Node Image
+
 This image serves as a simple example how to create a Docker image for a
-NodeJS application.
+NodeJS application and includes some endpoints to break the application through OOM kills or provoke slow requests.
 
 ## Endpoints
-The application responds to a GET request to `/` with a hello world string
-and to `/random-nr` with a random number chosen by fair dice roll.
+
+| Path                  | Method | Description                                                                                                                                                                                                                                                                                                                                                                                            |
+| --------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `/`                   | `GET`  | Returns some hello world JSON data.                                                                                                                                                                                                                                                                                                                                                                    |
+| `/random-nr`          | `GET`  | Returns a random number (statically set to 4, so it can be fixed during training)                                                                                                                                                                                                                                                                                                                      |
+| `/slow-request`       | `GET`  | Purposefully slow request. Set the time it waits in seconds (rational numbers allowed) using the `request_time` parameter in the query string, e.g. `/slow-request?request_time=2`                                                                                                                                                                                                                     |
+| `/allocate-memory-kb` | `POST` | Allocates a string of data and pushes it to a global array, increasing memory usage. This can be used to provoke deliberate OOM kills if memory is limited. Amount of memory must be specified in a JSON request body using the `memory_size_kb` property. E.g. ` curl -X POST -H "Content-Type: application/json" --data '{ "memory_size_kb": 1 }' localhost:8080/allocate-memory-kb` allocates 1 KB. |
+| `/healthcheck`        | `GET`  | Healthcheck endpoint that returns an alive message and can be configured to leak some memory on each request (see. configuration).                                                                                                                                                                                                                                                                     |
+| `/metrics`            | `GET`  | Returns metrics in ini style format for prometheus.                                                                                                                                                                                                                                                                                                                                                    |
 
 ## Configuration
-The port on which the application listens to, can be configured through the
-environment variable `PORT`.
+
+| Env Variable                    | Values                  | Default  | Description                                                                                                                  |
+| ------------------------------- | ----------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `PORT`                          | Integer from port range | 8080     | Specifies the port where the server listens.                                                                                 |
+| `HEALTHCHECK_LEAK_MEMORY`       | { empty &#124; FALSE    | "TRUE" } | empty => FALSE                                                                                                               | Whether a request to the healthcheck endpoint should leak some memory. |
+| `HEALTHCHECK_LEAK_INCREMENT_KB` | Integer                 | 1000     | Amount of memory that should be allocated on each healthcheck request if `HEALTHCHECK_LEAK_MEMORY` is `"TRUE"` in kilobytes. |

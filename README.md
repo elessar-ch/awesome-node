@@ -16,8 +16,8 @@ NodeJS application and includes some endpoints to break the application through 
 
 ## Configuration
 
-| Env Variable                    | Values                  | Default  | Description                                                                                                                  |
-| ------------------------------- | ----------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `PORT`                          | Integer from port range | 8080     | Specifies the port where the server listens.                                                                                 |
-| `HEALTHCHECK_LEAK_MEMORY`       | { empty &#124; FALSE    | "TRUE" } | empty => FALSE                                                                                                               | Whether a request to the healthcheck endpoint should leak some memory. |
-| `HEALTHCHECK_LEAK_INCREMENT_KB` | Integer                 | 1000     | Amount of memory that should be allocated on each healthcheck request if `HEALTHCHECK_LEAK_MEMORY` is `"TRUE"` in kilobytes. |
+| Env Variable                    | Values                               | Default        | Description                                                                                                                  |
+| ------------------------------- | ------------------------------------ | -------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `PORT`                          | Integer from port range              | 8080           | Specifies the port where the server listens.                                                                                 |
+| `HEALTHCHECK_LEAK_MEMORY`       | { empty &#124; FALSE &#124; "TRUE" } | empty => FALSE | Whether a request to the healthcheck endpoint should leak some memory.                                                       |
+| `HEALTHCHECK_LEAK_INCREMENT_KB` | Integer                              | 1000           | Amount of memory that should be allocated on each healthcheck request if `HEALTHCHECK_LEAK_MEMORY` is `"TRUE"` in kilobytes. |

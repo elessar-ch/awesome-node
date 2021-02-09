@@ -70,7 +70,7 @@ app.get("/slow-request", (req, res) => {
     res.json({
       waited: req.query.request_time + "s",
     });
-  }, parseInt(req.query.request_time) * 1000);
+  }, parseFloat(req.query.request_time) * 1000);
 });
 app.post("/allocate-memory-kb", (req, res) => {
   if (!req.body.memory_size_kb) {
@@ -122,7 +122,7 @@ app.get("/healthcheck", (req, res) => {
         requestPath: req.path,
         requestQuery: req.query,
         type: "preHealthCheckWithAllocation",
-        message: `Allocated ${leak_increment_kb} KB`,
+        message: `Allocating ${leak_increment_kb} KB`,
       })
     );
 

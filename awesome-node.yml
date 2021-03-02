@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: awesome-node
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: awesome-node
+  namespace: awesome-node
+  labels:
+    app: awesome-node
+spec:
+  replicas: 3
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+      name: awesome-node
+      labels:
+        app: awesome-node
+    spec:
+      containers:
+        - name: awesome-node
+          image: bespinian/awesome-node:1.0.6
+          env:
+            - name: "HEALTHCHECK_LEAK_MEMORY"
+              value: "TRUE"
+            - name: "HEALTHCHECK_LEAK_INCREMENT_KB"
+              value: "50"
+          resources:
+            limits:
+              cpu: 100m
+              memory: 120M
+            requests:
+              cpu: 100m
+              memory: 120M
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 2
+  selector:
+    matchLabels:
+      app: awesome-node
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: awesome-node
+  name: awesome-node-svc
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  selector:
+    app: awesome-node

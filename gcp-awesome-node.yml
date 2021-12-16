@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: auto-awesome-node
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auto-awesome-node
+  namespace: auto-awesome-node
+  labels:
+    app: auto-awesome-node
+spec:
+  replicas: 3
+  template:
+    metadata:
+      name: auto-awesome-node
+      labels:
+        app: auto-awesome-node
+    spec:
+      containers:
+        - name: auto-awesome-node
+          image: europe-west6-docker.pkg.dev/your-project/your-artifact-repo/awesome-node-gcp-build:latest
+          resources:
+            limits:
+              cpu: 100m
+              memory: 120M
+            requests:
+              cpu: 100m
+              memory: 120M
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 2
+  selector:
+    matchLabels:
+      app: auto-awesome-node
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: auto-awesome-node
+  name: auto-awesome-node-svc
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  selector:
+    app: auto-awesome-node
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: auto-awesome-node
+  name: auto-awesome-node-ingress
+  annotations:
+    # If the class annotation is not specified it defaults to "gce".
+    kubernetes.io/ingress.class: "gce"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: auto-awesome-node-svc
+                port:
+                  number: 80

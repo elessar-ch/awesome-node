@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: auto-awesome-node
-          image: europe-west6-docker.pkg.dev/your-project/your-artifact-repo/awesome-node-gcp-build:latest
+          image: europe-west6-docker.pkg.dev/test3-gabriel/day4-walkthrough/awesome-node-gcp-build:latest
           resources:
             limits:
               cpu: 100m

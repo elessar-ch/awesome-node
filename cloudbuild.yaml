@@ -18,20 +18,20 @@ steps:
       [
         "build",
         "-t",
-        "europe-west6-docker.pkg.dev/<your-project-id>/<your-artifact-repo>/awesome-node-gcp-build:$SHORT_SHA",
+        "europe-west6-docker.pkg.dev/test3-gabriel/day4-walkthrough/awesome-node-gcp-build:$SHORT_SHA",
         ".",
       ]
   - name: "gcr.io/cloud-builders/docker"
     args:
       [
         "push",
-        "europe-west6-docker.pkg.dev/<your-project-id>/<your-artifact-repo>/awesome-node-gcp-build:$SHORT_SHA",
+        "europe-west6-docker.pkg.dev/test3-gabriel/day4-walkthrough/awesome-node-gcp-build:$SHORT_SHA",
       ]
     # deploy container image to GKE
   - name: "gcr.io/cloud-builders/gke-deploy"
     args:
       - run
       - --filename=gcp-awesome-node.yml
-      - --image=europe-west6-docker.pkg.dev/<your-project-id>/<your-artifact-repo>/awesome-node-gcp-build:$SHORT_SHA
+      - --image=europe-west6-docker.pkg.dev/test3-gabriel/day4-walkthrough/awesome-node-gcp-build:$SHORT_SHA
       - --location=europe-west6
-      - --cluster=<your-cluster-name>
+      - --cluster=test-cluster1
